@@ -1,0 +1,23 @@
+{
+  "name": "fit2window",
+  "version": "1.0.0",
+  "description": "HTML/CSS/JavaScript experiments for fitting an image to view area.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "HTML",
+    "JavaScript",
+    "CSS",
+    "experiment",
+    "R&D",
+    "test",
+    "learn"
+  ],
+  "author": "Marco Frisan, ender.saka@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "normalize.css": "^7.0.0"
+  }
+}
