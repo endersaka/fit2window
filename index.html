@@ -1,4 +1,58 @@
-
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Fit to window</title>
+    <style type="text/css">
 
+    </style>
+  </head>
+  <body>
+    <img src="img/Fig04-01.png">
+    <script type="text/javascript">
+      window.onload = function(event) {
+        var img = document.getElementsByTagName('img')[0];
+        var imgSrc = img.getAttribute('src');
+        var imgBounds = img.getBoundingClientRect();
+
+        var w = img.clientWidth;
+        var h = img.clientHeight;
+
+        console.log('Image "%s": boundingClientRect ( %ipx, %ipx)', imgSrc, imgBounds.width, imgBounds.height);
+        console.log('Image "%s": client dimensions ( %ipx, %ipx)', imgSrc, w, h);
+        console.log('Image "%s": offset dimensions ( %ipx, %ipx)', imgSrc, img.offsetWidth, img.offsetHeight);
+        console.log('Image "%s": dimensions ( %ipx, %ipx)', imgSrc, img.width, img.height);
+        console.log('Image "%s": natural dimensions ( %ipx, %ipx)', imgSrc, img.naturalWidth, img.naturalHeight);
+
+        var imgAspectRatio = img.naturalWidth / img.naturalHeight;
+
+        var winW = window.innerWidth;
+        var winH = window.innerHeight;
+        var winPixelRatio = window.devicePixelRatio;
+        var winAspectRatio = winW / winH;
+
+        // Panorama
+        if (imgAspectRatio >= 1.0) {
+          if (winAspectRatio >= imgAspectRatio) {
+            img.width = winW;
+          }
+
+          else {
+            img.height = winH;
+          }
+        }
+
+        // Portrait
+        else {
+          if (winAspectRatio <= imgAspectRatio) {
+            img.height = winH;
+          }
+
+          else {
+            img.width = winW;
+          }
+        }
+      };
+    </script>
+  </body>
 </html>
