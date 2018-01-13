@@ -4,13 +4,38 @@
     <meta charset="utf-8">
     <title>Fit to window</title>
     <style type="text/css">
+      .bg {
+        position: relative;
+        top: 0;
+        left: 0;
+      }
 
+      .bgwidth {
+        /*width: 100%;*/
+      }
+
+      .bgheight {
+        /*height: 100%;*/
+      }
     </style>
   </head>
   <body>
-    <img src="img/Fig04-01.png">
+    <img src="img/Fig04-01.png" id="bg" alt="">
     <script type="text/javascript">
-      window.onload = function(event) {
+      function getStyleAsStringExcluding(el, exclude = []) {
+        var style = el.style;
+        for (var i = 0; i < exclude.length; i++) {
+          style.removeProperty(exclude[i]);
+        }
+        var styleArr = Array.from(style);
+        var str = styleArr.map(function (pair) {
+          return pair.join(': ');
+        }).join('; ');
+        console.log('Style Attrubute Value: ' + str);
+        return str;
+      }
+
+      var fit2window = function(event) {
         var img = document.getElementsByTagName('img')[0];
         var imgSrc = img.getAttribute('src');
         var imgBounds = img.getBoundingClientRect();
@@ -31,28 +56,24 @@
         var winPixelRatio = window.devicePixelRatio;
         var winAspectRatio = winW / winH;
 
-        // Panorama
-        if (imgAspectRatio >= 1.0) {
-          if (winAspectRatio >= imgAspectRatio) {
-            img.width = winW;
-          }
+        var styleStr = getStyleAsStringExcluding(img, ['width', 'height']);
 
-          else {
-            img.height = winH;
-          }
+        if (winAspectRatio < imgAspectRatio) {
+          // img.setAttribute('class', 'bg bgheight');
+          // img.style.height = winH + 'px';
+          styleStr += 'height: ' + winH + 'px';
+          // img.setAttribute('style', styleStr);
+        } else {
+          // img.setAttribute('class', 'bg bgwidth');
+          // img.style.width = winW + 'px';
+          styleStr += 'width: ' + winW + 'px';
         }
 
-        // Portrait
-        else {
-          if (winAspectRatio <= imgAspectRatio) {
-            img.height = winH;
-          }
-
-          else {
-            img.width = winW;
-          }
-        }
+        img.setAttribute('style', styleStr);
       };
+
+      window.onload = fit2window;
+      window.onresize = fit2window;
     </script>
   </body>
 </html>
