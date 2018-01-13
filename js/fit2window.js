@@ -26,7 +26,7 @@ var fit2window = function(event) {
   var winPixelRatio = window.devicePixelRatio;
   var winAspectRatio = winW / winH;
 
-  var styleStr = getStyleAsStringExcluding(img, ['width', 'height']);
+  var styleStr = getStyleAsStringExcluding(img, ['width', 'height', 'left']);
 
   if (winAspectRatio < imgAspectRatio) {
     // img.style.height = winH + 'px';
@@ -37,6 +37,10 @@ var fit2window = function(event) {
   }
 
   img.setAttribute('style', styleStr);
+
+  if (!img.classList.contains('hcenter')) {
+    img.classList.add('hcenter');
+  }
 };
 
 window.onload = fit2window;
