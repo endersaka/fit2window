@@ -9,14 +9,6 @@
         top: 0;
         left: 0;
       }
-
-      .bgwidth {
-        /*width: 100%;*/
-      }
-
-      .bgheight {
-        /*height: 100%;*/
-      }
     </style>
   </head>
   <body>
@@ -31,7 +23,7 @@
         var str = styleArr.map(function (pair) {
           return pair.join(': ');
         }).join('; ');
-        console.log('Style Attrubute Value: ' + str);
+        //console.log('Style Attrubute Value: ' + str);
         return str;
       }
 
@@ -43,12 +35,6 @@
         var w = img.clientWidth;
         var h = img.clientHeight;
 
-        console.log('Image "%s": boundingClientRect ( %ipx, %ipx)', imgSrc, imgBounds.width, imgBounds.height);
-        console.log('Image "%s": client dimensions ( %ipx, %ipx)', imgSrc, w, h);
-        console.log('Image "%s": offset dimensions ( %ipx, %ipx)', imgSrc, img.offsetWidth, img.offsetHeight);
-        console.log('Image "%s": dimensions ( %ipx, %ipx)', imgSrc, img.width, img.height);
-        console.log('Image "%s": natural dimensions ( %ipx, %ipx)', imgSrc, img.naturalWidth, img.naturalHeight);
-
         var imgAspectRatio = img.naturalWidth / img.naturalHeight;
 
         var winW = window.innerWidth;
@@ -59,12 +45,9 @@
         var styleStr = getStyleAsStringExcluding(img, ['width', 'height']);
 
         if (winAspectRatio < imgAspectRatio) {
-          // img.setAttribute('class', 'bg bgheight');
           // img.style.height = winH + 'px';
           styleStr += 'height: ' + winH + 'px';
-          // img.setAttribute('style', styleStr);
         } else {
-          // img.setAttribute('class', 'bg bgwidth');
           // img.style.width = winW + 'px';
           styleStr += 'width: ' + winW + 'px';
         }
