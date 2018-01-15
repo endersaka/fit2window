@@ -1,3 +1,12 @@
+function Fit2Window(image) {
+  this.image = image;
+  this.src = image.getAttribute('src');
+  this.bounds = image.getBoundingClientRect();
+  this.width = image.clientWidth;
+  this.height = image.clientHeight;
+  this.aspect = this.width / this.height;
+}
+
 function getStyleAsStringExcluding(el, exclude = []) {
   var style = el.style;
   for (var i = 0; i < exclude.length; i++) {
@@ -11,15 +20,31 @@ function getStyleAsStringExcluding(el, exclude = []) {
   return str;
 }
 
-var fit2window = function(event) {
+function fit2window(event) {
+  // if () {
+  //   fit2windowInit();
+  // }
   var img = document.getElementsByTagName('img')[0];
   var imgSrc = img.getAttribute('src');
   var imgBounds = img.getBoundingClientRect();
 
-  var w = img.clientWidth;
-  var h = img.clientHeight;
+  /* Probably HTMLElement.clientWidth is not the best property for this achievment.
+   * In fact, it seems to be dependant on the scrollbar size, something like:
+   * clientWidth = window.innerWidth - [scrollbar width]
+   * see https://stackoverflow.com/a/21064102
+   *
+   * There are two options remaining: scrollWidth and offsetWidth.
+   * offsetWidth seems to be the size of the element, included border-width.
+   * scrollWidth, instead, starts from the top-left corner of the padding box
+   * and continue till the image box right limit.
+   *
+   * Of course I could use naturalWidth and implement a fallback of naturalWidth
+   * for older browsers.
+   */
+  var w = img.naturalWidth;
+  var h = img.naturalHeight;
 
-  var imgAspectRatio = img.naturalWidth / img.naturalHeight;
+  var imgAspectRatio = w / h;
 
   var winW = window.innerWidth;
   var winH = window.innerHeight;
@@ -29,10 +54,8 @@ var fit2window = function(event) {
   var styleStr = getStyleAsStringExcluding(img, ['width', 'height', 'left']);
 
   if (winAspectRatio < imgAspectRatio) {
-    // img.style.height = winH + 'px';
     styleStr += 'height: ' + winH + 'px';
   } else {
-    // img.style.width = winW + 'px';
     styleStr += 'width: ' + winW + 'px';
   }
 
@@ -43,5 +66,12 @@ var fit2window = function(event) {
   }
 };
 
-window.onload = fit2window;
-window.onresize = fit2window;
+function fit2windowInit(event) {
+  return new Fit2Window(document.getElementsByTagName('img')[0]);
+}
+
+// window.onload = fit2window;
+// window.onresize = fit2window;
+
+window.addEventListener('load', fit2window);
+window.addEventListener('resize', fit2window);
